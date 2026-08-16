@@ -1,0 +1,8 @@
+interface:
+  display_name: "Learn Flow AI 课堂笔记"
+  short_description: "将 AI 课堂转写整理为核心知识点、思维导图和隐藏答案的自测"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  default_prompt: "使用 $learn-flow-skill 整理我上传的录音转写稿或课堂文本，直接生成学习笔记和不显示答案的课后自测。"
+policy:
+  allow_implicit_invocation: true
