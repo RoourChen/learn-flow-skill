@@ -1,6 +1,6 @@
 ---
 name: learn-flow-skill
-description: Use when the user uploads audio transcripts, classroom text, lecture notes, slides, subtitles, or handouts, or asks for AI learning notes, Feynman explanations, Mermaid mind maps, answer-hidden quizzes, quiz grading, learning plans, deliberate practice, or stage reviews.
+description: Use when the user uploads audio transcripts, classroom text, lecture notes, slides, subtitles, or handouts, or asks for AI learning notes with teacher examples and beginner product examples, Feynman explanations, mind maps, answer-hidden quizzes, quiz grading, learning plans, deliberate practice, or stage reviews.
 ---
 
 # Learn Flow：个人学习笔记与复盘助手
@@ -41,7 +41,17 @@ description: Use when the user uploads audio transcripts, classroom text, lectur
 
 材料很长时在内部按主题分段处理，再跨段去重、统一术语并恢复知识关系；不要把机械分段结果直接拼给用户。
 
-### 2. 识别随堂笔记中的学习标记
+### 2. 案例邻接规则
+
+逐个识别老师用于解释知识点的实质案例，包括产品、项目、功能、指标、架构、风险、商业化、实验和失败案例。不要只保留名称，也不要把老师案例改写成泛泛的“实际应用”。
+
+老师课堂案例必须放在它所解释的知识点下面。每个老师课堂案例后必须紧跟一个零基础补充产品案例；不要把课堂案例集中到独立章节。一个知识点包含多个老师案例时，按“老师案例 1→对应小白案例 1→老师案例 2→对应小白案例 2”排列，不要把多个老师案例合并成一个。
+
+老师案例要保留四类信息：课堂位置或主题、原始情境、老师如何分析、课堂结论。无法从材料确认的细节要明确标注，不要补造成老师原话。
+
+零基础补充产品案例必须是对当前知识点的迁移解释，不是改写老师案例。字段顺序必须为：用户：场景：MVP：流程：指标：风险与兜底：。案例要具体到谁在什么情况下做什么，首期做与不做什么，怎样运行，如何验证，以及出错后由谁兜底。
+
+### 3. 识别随堂笔记中的学习标记
 
 把提示词视为用户的学习状态，不要当作课程正文：
 
@@ -57,7 +67,7 @@ description: Use when the user uploads audio transcripts, classroom text, lectur
 
 不要武断地说“你没学会”。
 
-### 3. 固定输出合同
+### 4. 固定输出合同
 
 除非用户明确要求其他格式，否则严格按以下顺序输出。重点术语和结论使用 **粗体**，但不要整段加粗。
 
@@ -85,11 +95,19 @@ description: Use when the user uploads audio transcripts, classroom text, lectur
 > [必须理解或记住的结论，以及为什么重要]
 
 > [!TIP]
-> **课堂案例｜[案例名称]**
-> - **案例背景：**
+> **老师课堂案例｜[案例名称]**
+> - **课堂位置或主题：**
+> - **原始情境：**
 > - **老师如何分析：**
-> - **它说明了什么：**
-> - **可以迁移到什么场景：**
+> - **课堂结论：**
+
+#### 零基础补充产品案例｜[新案例名称]
+- **用户：**
+- **场景：**
+- **MVP：**
+- **流程：**
+- **指标：**
+- **风险与兜底：**
 
 > [!WARNING]
 > **需要加深理解｜[知识点名称]**
@@ -140,6 +158,16 @@ mindmap
 按内容多少决定知识点和题目数量，默认提供 3–7 个核心知识点、6–10 道自测题。题目必须能从材料和笔记中得到依据，并包含基础理解、判断辨析和场景应用；材料不足时减少题量，不编造答案依据。
 
 只有确实存在重点、案例或理解风险时才插入对应提示块，不要为了填模板虚构内容。没有待确认内容时写“未发现需要确认的内容”。
+
+### 5. 基础 Markdown 兼容模式
+
+当用户明确要求“只输出 md”“基础 Markdown”“不要错误代码”“不要命令”“不要 Word”或目标软件不能正确渲染扩展语法时，输出 `.md` 文件，并只使用标题、普通段落、列表、链接和简单表格：
+
+- 不使用粗体标记、提示块、引用块、代码围栏或 Mermaid 源码。
+- 把重点、理解风险和学习鼓励改为普通标题加正文。
+- 把知识关系图改为缩进列表；不要把渲染命令当成笔记内容。
+- 保持案例邻接规则不变，仍按“知识点→老师课堂案例→零基础补充产品案例”排列。
+- 不额外生成 Word、PDF 或其他格式，除非用户明确要求。
 
 ## 批改与薄弱点分析模式
 
@@ -269,6 +297,9 @@ mindmap
 - 多份材料是否按优先级融合，而不是简单拼接？
 - “重听、重点、再听一遍”等是否被正确识别为个人标记？
 - 重点是否加粗并用独立高亮块展示？案例是否单独标记？
+- 每个知识点后的老师课堂案例是否完整保留，且每个老师案例后都紧跟对应的零基础产品案例？
+- 是否避免把全部课堂案例集中到单独章节或把多个老师案例合并？
+- 用户要求基础 Markdown 时，是否移除了粗体、提示块、引用块、代码围栏和 Mermaid 命令？
 - 大白话解释是否让 AI 零基础用户看得懂？
 - 首次自测是否隐藏答案，提交答案后是否逐题批改？
 - 转写疑点、材料冲突和推测是否明确标注？
