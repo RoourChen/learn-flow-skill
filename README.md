@@ -173,6 +173,9 @@ learn-flow-skill/
 ├── README.md          # 项目介绍与使用指南
 ├── SKILL.md           # 五种学习模式与质量检查规则
 ├── LICENSE            # MIT 许可证及原有署名
+├── .github/workflows/check.yml # GitHub 自动检查
+├── scripts/check_skill.py      # 文件与配置校验器
+├── requirements-check.txt      # 仅供维护检查使用
 ├── agents/
 │   └── openai.yaml    # 显示名称、默认提示词与调用配置
 └── assets/
@@ -181,7 +184,16 @@ learn-flow-skill/
 
 ## 🧪 使用检查
 
-仓库当前没有自动化测试脚本。可以用一小段包含时间顺序、课堂案例和“重听”标记的材料检查输出。
+每次推送或提交 Pull Request，GitHub 都会自动检查 README、许可证、Skill 元信息、调用配置，以及配置引用的图标。检查记录见 [Skill integrity](https://github.com/RoourChen/learn-flow-skill/actions/workflows/check.yml)，绿色表示通过，红色表示发现问题；也支持在 Actions 页面手动运行。
+
+维护者可以用 Python 3.11 在本地执行相同检查（普通使用者安装 Skill 时无需执行）：
+
+```bash
+python3 -m pip install -r requirements-check.txt
+python3 scripts/check_skill.py
+```
+
+自动检查不评判模型回答质量。仍可用一小段包含时间顺序、课堂案例和“重听”标记的材料检查输出。
 
 - 笔记是否保留原始顺序，老师案例是否紧跟对应知识点。
 - 首轮自测是否隐藏答案，提交作答后是否按题目批改。
